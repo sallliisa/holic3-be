@@ -42,7 +42,6 @@ export const get: Handler = async (req, res) => {
 
   
   let query = config.list?.queryGenerator ? deepmerge(deepmerge(baseQuery, {...relationQuery, ...deepmerge(searchFilterQuery, dataFilterQuery)}), (await config.list.queryGenerator(req, res, params)) ?? {}) : deepmerge(baseQuery, deepmerge({...relationQuery, ...deepmerge(searchFilterQuery, dataFilterQuery)}))
-  console.log(req.params.model, deepmerge(baseQuery, {...relationQuery, ...deepmerge(searchFilterQuery, dataFilterQuery)}))
   
   if (config.list?.beforeExecute) query = await config.list.beforeExecute(query, req, res, params)
 

@@ -10,12 +10,12 @@ export const post: Handler = async (req, res) => {
   })
 
   if (!result) return res.status(403).send({
-    authorized: false,
+    success: false,
     message: 'Username atau password salah!'
   })
   res.send({
     data: {
-      authorized: true,
+      success: true,
       message: 'Berhasil melakukan login!'
     }
   })
