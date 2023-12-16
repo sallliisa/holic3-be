@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  active Boolean
+  User   User[]
+}
+
+model User {
+  role             Role               @relation(fields: [role_id], references: [id])
+  id               Int                @id @default(autoincrement())
+  role_id          Int
+  name             String
+  username         String
+  password         String
+  img_photo        String
+  active           Boolean
+  UserActivity     UserActivity[]
+  Transaction      Transaction[]
+  PointTransaction PointTransaction[]
+}
+
+model Customer {
+  id          Int           @id @default(autoincrement())
+  name        String
+  created_at  DateTime
+  point       Int           @default(0)
+  active      Boolean
+  Transaction Transaction[]
+}
+
+model UserActivity {
+  user          User     @relation(fields: [user_id], references: [id])
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  date          DateTime
+  activity_type String
+}
+
+model Warung {
+  id        Int     @id @default(autoincrement())
+  name      String
+  img_logo  String
+  img_photo String
+  Table     Table[]
+}
+
+model Table {
+  warung      Warung        @relation(fields: [warung_id], references: [id])
+  id          Int           @id @default(autoincrement())
+  warung_id   Int
+  code        String
+  Transaction Transaction[]
+}
+
+model Promo {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String
+  point_cost  Int
+  img_photo   String
+  Transaction Transaction[]
+}
+
+model Menu {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  category          String
+  unit_cost         Float
+  img_photo         String
+  TransactionDetail TransactionDetail[]
+}
+
+model Transaction {
+  user              User                @relation(fields: [user_id], references: [id])
+  customer          Customer?           @relation(fields: [customer_id], references: [id])
+  table             Table               @relation(fields: [table_id], references: [id])
+  promo             Promo?              @relation(fields: [promo_id], references: [id])
+  id                Int                 @id @default(autoincrement())
+  user_id           Int
+  customer_id       Int
+  table_id          Int
+  promo_id          Int
+  date              DateTime
+  shift             Int
+  status            String
+  total_discount    Float
+  total             Float
+  payment_method    String
+  TransactionDetail TransactionDetail[]
+}
+
+model TransactionDetail {
+  transaction    Transaction @relation(fields: [transaction_id], references: [id])
+  menu           Menu        @relation(fields: [menu_id], references: [id])
+  id             Int  @id @default(autoincrement())
+  transaction_id Int
+  menu_id        Int
+  amount         Int
+  active         Boolean
+}
+
+model PointTransaction {
+  user    User     @relation(fields: [user_id], references: [id])
+  id      Int      @id @default(autoincrement())
+  user_id Int
+  date    DateTime
+  amount  Int
+  active  Boolean
+}
