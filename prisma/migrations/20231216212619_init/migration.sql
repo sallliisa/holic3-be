@@ -10,6 +10,7 @@ CREATE TABLE "Role" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
+    "code" TEXT NOT NULL,
     "role_id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE "Customer" (
 CREATE TABLE "UserActivity" (
     "id" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "activity_type" TEXT NOT NULL,
 
     CONSTRAINT "UserActivity_pkey" PRIMARY KEY ("id")
@@ -45,6 +46,7 @@ CREATE TABLE "UserActivity" (
 CREATE TABLE "Warung" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
     "img_logo" TEXT,
     "img_photo" TEXT,
 
@@ -93,6 +95,7 @@ CREATE TABLE "Menu" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" SERIAL NOT NULL,
+    "code" TEXT NOT NULL,
     "user_id" INTEGER NOT NULL,
     "customer_id" INTEGER,
     "table_id" INTEGER NOT NULL,
@@ -101,6 +104,7 @@ CREATE TABLE "Transaction" (
     "shift" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
     "total_discount" DOUBLE PRECISION NOT NULL,
+    "subtotal" DOUBLE PRECISION NOT NULL,
     "total" DOUBLE PRECISION NOT NULL,
     "payment_method" TEXT NOT NULL,
 

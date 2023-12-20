@@ -20,6 +20,7 @@ model Role {
 model User {
   role             Role               @relation(fields: [role_id], references: [id])
   id               Int                @id @default(autoincrement())
+  code             String
   role_id          Int
   name             String
   username         String
@@ -51,6 +52,7 @@ model UserActivity {
 model Warung {
   id        Int     @id @default(autoincrement())
   name      String
+  code      String
   img_logo  String?
   img_photo String?
   Table     Table[]
@@ -95,6 +97,7 @@ model Transaction {
   table             Table               @relation(fields: [table_id], references: [id])
   promo             Promo?              @relation(fields: [promo_id], references: [id])
   id                Int                 @id @default(autoincrement())
+  code              String
   user_id           Int
   customer_id       Int?
   table_id          Int
@@ -103,6 +106,7 @@ model Transaction {
   shift             Int
   status            String
   total_discount    Float
+  subtotal          Float
   total             Float
   payment_method    String
   TransactionDetail TransactionDetail[]
