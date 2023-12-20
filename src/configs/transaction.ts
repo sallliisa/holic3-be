@@ -20,5 +20,8 @@ export default {
         name: true
       }
     }
+  },
+  list: {
+    filterable: ["status"]
   }
 }
